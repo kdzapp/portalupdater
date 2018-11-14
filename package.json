@@ -1,0 +1,19 @@
+{
+  "name": "PortalUpdater",
+  "version": "0.1.0",
+  "description": "Portal Spaces updater",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron .",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "portal",
+    "spaces",
+    "updater"
+  ],
+  "author": "Kyle Zappitell",
+  "devDependencies": {
+    "electron": "^3.0.9"
+  }
+}
