@@ -1,10 +1,12 @@
 const { app, BrowserWindow } = require('electron')
+const Store = require('electron-store');
+const store = new Store();
 
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.
 let win
 
-function createWindow () {
+function createWindow() {
   // Create the browser window.
   win = new BrowserWindow({ width: 800, height: 600 })
 
@@ -21,6 +23,11 @@ function createWindow () {
     // when you should delete the corresponding element.
     win = null
   })
+}
+
+// Updater
+function UpdatePortal() {
+  Update(win, store);
 }
 
 // This method will be called when Electron has finished

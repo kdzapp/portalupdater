@@ -13,16 +13,8 @@
     <!-- Main CSS -->
     <link rel="stylesheet" href="css/style.css">
     <!-- /build -->
-    <!--favi-->
-    
     <script src="https://www.gstatic.com/firebasejs/5.5.8/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/5.5.8/firebase.js"></script>
-
-    <!-- Add additional services that you want to use -->
-    <script src="https://www.gstatic.com/firebasejs/5.5.8/firebase-auth.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/5.5.8/firebase-firestore.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/5.5.8/firebase-functions.js"></script>
-
     <script>
       // Initialize Firebase
       var config = {
@@ -34,62 +26,26 @@
         messagingSenderId: "448680861753"
       };
       firebase.initializeApp(config);
-
-      firebase.auth().onAuthStateChanged(function(user) {
-        if (user) {
-          // User is signed in.
-          window.location.replace("account.html")
-        } else {
-          // No user is signed in.
-        }
-      });
     </script>
-    <script src="https://cdn.firebase.com/libs/firebaseui/3.4.1/firebaseui.js"></script>
-    <link type="text/css" rel="stylesheet" href="https://cdn.firebase.com/libs/firebaseui/3.4.1/firebaseui.css" />
-    <script type="text/javascript">
-    // FirebaseUI config.
-    var uiConfig = {
-      signInSuccessUrl: function() {
-          window.location.replace('upgrade.html');
-        },
-      signInOptions: [
-        // Leave the lines as is for the providers you want to offer your users.
-        firebase.auth.GoogleAuthProvider.PROVIDER_ID,
-        firebase.auth.EmailAuthProvider.PROVIDER_ID,
-      ],
-
-      // TODO: Terms of service url/callback.
-      tosUrl: function() {
-          window.location.replace('termsofservice');
-        },
-      // TODO: Privacy policy url/callback.
-        privacyPolicyUrl: function() {
-          window.location.replace('privacy');
-        }
-    };
-
-    // Initialize the FirebaseUI Widget using Firebase.
-    var ui = new firebaseui.auth.AuthUI(firebase.auth());
-    // The start method will wait until the DOM is loaded.
-    ui.start('#firebaseui-auth-container', uiConfig);
-  </script>
 </head>
 
-<body class="overflow-hidden bg-light">
+<body class="overflow-hidden bg-light" onload="UpdatePortal()">
   <header id="home">
-      <div class="row justify-content-md-center margin-top">
-        <div class="col col-md-5">
-          <div id="firebaseui-auth-container"></div>
+
+      <div class="row">
+        <div class="col-md-12">
+          <div class="centerBlock">
+            <img class="smaller" src="images/portal.png"></img>
+          </div>
         </div>
       </div>
-      <div class="row justify-content-md-center">
-        <div class="col col-md-5 text-center">
-          <h5>OR</h5>
-        </div>
-      </div>
-      <div class="row justify-content-md-center">
-        <div class="col col-md-5 text-center">
-          <a href="javascript:StartPortal()" class="btn align-middle btn-primary my-2 my-lg-0">Continue as Guest</a>
+      <div class="row">
+        <div class="col-md-3"></div>
+        <div class="col-md-6 text-center">
+                    <h5 id="status">Updating...</h5>
+          <div class="progress">
+            <div class="progress-bar progress-bar" role="progressbar" aria-valuenow="40" aria-valuemin="0" aria-valuemax="100" style="width:0%;" id="progress"></div>
+          </div>
         </div>
       </div>
 
@@ -97,62 +53,12 @@
       <div class="bg-circle"></div>
       <div class="bg-circle-two"></div>
 
-
-      <!-- Firebase -->
-  
-      <script>
-      var db = firebase.firestore();
-      const settings = {timestampsInSnapshots: true};
-      db.settings(settings);
-
-      firebase.auth().onAuthStateChanged(function(user) {
-        if (user) {
-          // User is signed in.
-          // GetTier(user.uid);
-        } else {
-          // No user is signed in.
-          // window.location.replace("index.html")
-        }
-      });
-
-      function GetTier(uid) {
-        db.collection("subscriptions").doc(uid).get().then((data) => {
-          const tier = data.data().tier;
-          var plan = "";
-
-          switch (tier) {
-            case 1:
-                plan = "solo worker";
-                document.getElementById("solo").innerHTML = "You Own This";
-                document.getElementById("solo").disabled = true;
-              break;
-            case 2:
-                plan = "team player";
-                document.getElementById("solo").innerHTML = "You Own This";
-                document.getElementById("solo").disabled = true;
-                document.getElementById("team").innerHTML = "You Own This";
-                document.getElementById("team").disabled = true;
-              break;
-            default:
-              plan = "basic";
-          }
-          document.getElementById("plan").innerHTML = plan;
-        });
-      }
-
-      function StartPortal() {
-        console.log("Start Portal.exe");
-      }
-      </script>
-
-      <!-- Firebase -->
-
       <!-- jQuery first, then Tether, then Bootstrap JS. -->
       <script src="js/global/jquery-3.2.1.min.js"></script>
-      <!-- Bootstrap JS -->
-      <script src="js/global/bootstrap.bundle.min.js"></script>
-      <!-- Main JS -->
-      <script src="js/script.js"></script>
+      <script src="https://www.gstatic.com/firebasejs/5.5.8/firebase-firestore.js"></script>
+      <script src="https://www.gstatic.com/firebasejs/5.5.8/firebase-storage.js"></script>
       <!-- /build -->
+      <script src="js/update.js"></script>
+      <script src="main.js"></script>
     </header>
 </body>
