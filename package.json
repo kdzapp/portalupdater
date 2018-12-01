@@ -22,15 +22,25 @@
   },
   "dependencies": {
     "decompress-zip": "^0.3.1",
-    "electron-builder": "^20.38.2",
     "electron-store": "^2.0.0",
     "electron-updater": "^4.0.5",
     "firebase": "^5.6.0",
-    "yarn": "^1.12.3",
-    "npm": "^6.4.1"
+    "npm": "^6.4.1",
+    "yarn": "^1.12.3"
   },
   "build": {
-  "appId": "portalspaces.com",
-  "mac": {
-    "category": "productivity"
-  }}
+    "appId": "org.portalspaces.com",
+    "mac": {
+      "category": "productivity"
+    },
+    "win": {
+      "publisherName": "Kyle Zappitell",
+      "target": [
+        {
+          "target": "nsis",
+          "arch": ["x64", "ia32"]
+        }
+      ]
+    }
+  }
+}
