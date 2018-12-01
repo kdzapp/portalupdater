@@ -24,18 +24,18 @@ function getOs() {
     return null;
   } else if(platform == "win32") {
     var arch = os.arch();
-      if(arch == "x32" || arch == "arm") {
+      //if(arch == "x32" || arch == "arm") {
         return "win32";
-      } else {
-        return "win64";
-      }
+      //} else {
+      //  return "win64";
+      //}
   } else {
     // Not Supported OS
     return null;
   }
 }
 
-function InstallUpdate() {
+function InstallUpdate(build_version) {
   //Unzip & Save
   document.getElementById("status").innerHTML = "Installing...";
   var DecompressZip = require('decompress-zip');
@@ -105,15 +105,22 @@ async function Update(win, store) {
     xhr.setRequestHeader("Access-Control-Allow-Origin", "*");
     xhr.responseType = 'blob';
     // Update Progress Bar
-    xhr.onload = function(event) {
+    xhr.onload = function(e) {
       var blob = xhr.response;
+      console.log(xhr.status)
       // Store Downloaded Install ZIP
-      var reader = new FileReader();
-      reader.onloadend = (event) => {
-          require('fs').writeFileSync('install.zip', new Buffer(reader.result));
-          InstallUpdate();
+      console.log(blob);
+      if(blob.size > 0) {
+        var reader = new FileReader();
+        reader.onloadend = (event) => {
+            require('fs').writeFileSync('install.zip', new Buffer(reader.result));
+            InstallUpdate(build_version);
+        }
+        reader.readAsArrayBuffer(blob);
+      } else {
+          document.getElementById("status").innerHTML = "Download Failed, Please Retry";
+          ele.setAttribute("style", "width:0%;")
       }
-      reader.readAsArrayBuffer(blob);
     };
 
     var total_bytes = 0;

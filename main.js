@@ -1,6 +1,7 @@
 const { app, BrowserWindow } = require('electron')
 const Store = require('electron-store');
 const store = new Store();
+const { spawn } = require('child_process');
 
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.
@@ -28,6 +29,20 @@ function createWindow() {
 // Updater
 function UpdatePortal() {
   Update(win, store);
+}
+
+// Launcher
+function RunPortal(tier, email) {
+  console.log(tier, email);
+  const remote = require('electron').remote;
+  var executablePath = "PortalOffice.exe";
+  var parameters = ["--tier", tier, "--email", email];
+
+  const portal = spawn(executablePath, parameters);
+  portal.unref();
+
+  let w = remote.getCurrentWindow();
+  w.close();
 }
 
 // This method will be called when Electron has finished

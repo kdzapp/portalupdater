@@ -14,11 +14,11 @@
   ],
   "author": "Kyle Zappitell",
   "devDependencies": {
-    "electron": "^3.0.9"
+    "electron": "^3.0.10"
   },
   "dependencies": {
     "decompress-zip": "^0.3.1",
     "electron-store": "^2.0.0",
-    "firebase": "^5.5.9"
+    "firebase": "^5.6.0"
   }
 }
