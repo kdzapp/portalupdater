@@ -2,12 +2,16 @@ const { app, BrowserWindow } = require('electron')
 const Store = require('electron-store');
 const store = new Store();
 const { spawn } = require('child_process');
+const { autoUpdater } = require("electron-updater")
 
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.
 let win
 
 function createWindow() {
+  // First Check for Updates
+  autoUpdater.checkForUpdatesAndNotify()
+
   // Create the browser window.
   win = new BrowserWindow({ width: 800, height: 600 })
 

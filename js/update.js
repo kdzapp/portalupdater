@@ -24,11 +24,11 @@ function getOs() {
     return null;
   } else if(platform == "win32") {
     var arch = os.arch();
-      //if(arch == "x32" || arch == "arm") {
+      if(arch == "x32" || arch == "arm") {
         return "win32";
-      //} else {
-      //  return "win64";
-      //}
+      } else {
+        return "win64";
+      }
   } else {
     // Not Supported OS
     return null;
