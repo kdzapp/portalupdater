@@ -1,15 +1,17 @@
 const { app, BrowserWindow, ipcMain } = require('electron')
-const updater = require('./js/update.js');
 const Store = require('electron-store');
 const store = new Store();
 const { spawn } = require('child_process');
+const log = require('electron-log');
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.
+
+require('dotenv').config()
 let win
 
 const { autoUpdater } = require("electron-updater");
 
-autoUpdater.logger = require('electron-log');
+autoUpdater.logger = log;
 
 function createWindow() {
 
@@ -45,30 +47,30 @@ function RunPortal(tier, email) {
   w.close();
 }
 
+function UpdatePortal() {
+  Update(win, store);
+}
+
 autoUpdater.on('checking-for-update', () => {
-  console.log("Checking for update");
-})
-
-autoUpdater.on('download-progress', (progress) => {
-  console.log("download-progress");
-})
-
-autoUpdater.on('error', (error) => {
-  console.log("ERROR");
-})
-
-autoUpdater.on('update-not-availabe', (info) => {
-  console.log("No UPdate");
-  updater.Update(win, store);
+  log.warn("Checking for Update");
 });
 
-autoUpdater.on('update-downloaded', (info) => {
-  console.log("Update downloaded");
+autoUpdater.on('error', (error) => {
+  log.warn("ERROR");
+});
+
+autoUpdater.on('update-not-available', (info) => {
+  log.warn("No Update");
+  win.webContents.send('no-update-available');
+});
+
+autoUpdater.on('update-downloaded', (event, releaseNotes, releaseName) => {
+  log.info("Update downloaded");
   const dialogOpts = {
     type: 'info',
     buttons: ['Restart', 'Later'],
     title: 'Application Update',
-    //message: process.platform === 'win32' ? releaseNotes : releaseName,
+    message: process.platform === 'win32' ? releaseNotes : releaseName,
     detail: 'A new version has been downloaded. Restart the application to apply the updates.'
   }
 

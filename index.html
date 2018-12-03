@@ -58,5 +58,12 @@
       <!-- /build -->
       <script src="main.js"></script>
       <script src="js/update.js"></script>
+      <script>
+      const {ipcRenderer} = require('electron');
+
+      ipcRenderer.on('no-update-available', function(event, text) {
+        UpdatePortal();
+      })
+      </script>
     </header>
 </body>

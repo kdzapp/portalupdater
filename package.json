@@ -1,6 +1,6 @@
 {
   "name": "PortalUpdater",
-  "version": "0.1.0",
+  "version": "0.1.2",
   "description": "Portal Spaces Updater",
   "main": "main.js",
   "repository": {
@@ -28,6 +28,7 @@
   },
   "dependencies": {
     "decompress-zip": "^0.3.1",
+    "dotenv": "^6.1.0",
     "electron-log": "^2.2.17",
     "electron-store": "^2.0.0",
     "electron-updater": "^4.0.5",
@@ -38,16 +39,20 @@
   "build": {
     "appId": "org.portal.spaces",
     "mac": {
-      "publish": [
-        "github"
-      ],
+      "publish": {
+        "provider": "github",
+        "token": "c6743a4b597a1124408470bfce41189b66b90ff4",
+        "private": true
+      },
       "category": "productivity"
     },
     "win": {
       "publisherName": "Kyle Zappitell",
-      "publish": [
-        "github"
-      ]
+      "publish": {
+        "provider": "github",
+        "token": "c6743a4b597a1124408470bfce41189b66b90ff4",
+        "private": true
+      }
     }
   }
 }
