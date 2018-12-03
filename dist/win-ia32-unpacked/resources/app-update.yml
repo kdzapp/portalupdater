@@ -1,0 +1,6 @@
+owner: kdzapp
+repo: portalupdater
+provider: github
+updaterCacheDirName: portalupdater-updater
+publisherName:
+  - Kyle Zappitell

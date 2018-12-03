@@ -3,11 +3,17 @@
   "version": "0.1.0",
   "description": "Portal Spaces Updater",
   "main": "main.js",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/kdzapp/portalupdater.git"
+  },
   "scripts": {
     "start": "electron .",
     "test": "echo \"Error: no test specified\" && exit 1",
     "pack": "electron-builder --dir",
     "dist": "electron-builder",
+    "build": "build -m",
+    "ship": "build -m -p always",
     "postinstall": "electron-builder install-app-deps"
   },
   "keywords": [
@@ -22,6 +28,7 @@
   },
   "dependencies": {
     "decompress-zip": "^0.3.1",
+    "electron-log": "^2.2.17",
     "electron-store": "^2.0.0",
     "electron-updater": "^4.0.5",
     "firebase": "^5.6.0",
@@ -29,17 +36,17 @@
     "yarn": "^1.12.3"
   },
   "build": {
-    "appId": "org.portalspaces.com",
+    "appId": "org.portal.spaces",
     "mac": {
+      "publish": [
+        "github"
+      ],
       "category": "productivity"
     },
     "win": {
       "publisherName": "Kyle Zappitell",
-      "target": [
-        {
-          "target": "nsis",
-          "arch": ["x64", "ia32"]
-        }
+      "publish": [
+        "github"
       ]
     }
   }

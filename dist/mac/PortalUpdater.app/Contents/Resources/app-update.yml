@@ -1,0 +1,4 @@
+owner: kdzapp
+repo: portalupdater
+provider: github
+updaterCacheDirName: portalupdater-updater

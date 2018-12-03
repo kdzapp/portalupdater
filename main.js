@@ -1,12 +1,15 @@
-const { app, BrowserWindow } = require('electron')
+const { app, BrowserWindow, ipcMain } = require('electron')
+const updater = require('./js/update.js');
 const Store = require('electron-store');
 const store = new Store();
 const { spawn } = require('child_process');
-//const { autoUpdater } = require("electron-updater")
-
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.
 let win
+
+const { autoUpdater } = require("electron-updater");
+
+autoUpdater.logger = require('electron-log');
 
 function createWindow() {
 
@@ -28,14 +31,6 @@ function createWindow() {
   })
 }
 
-// Updater
-function UpdatePortal() {
-  // First Check for Updater Updates
-  //autoUpdater.checkForUpdatesAndNotify();
-  // Then Check for Portal Spaces Updates
-  Update(win, store);
-}
-
 // Launcher
 function RunPortal(tier, email) {
   console.log(tier, email);
@@ -50,10 +45,45 @@ function RunPortal(tier, email) {
   w.close();
 }
 
+autoUpdater.on('checking-for-update', () => {
+  console.log("Checking for update");
+})
+
+autoUpdater.on('download-progress', (progress) => {
+  console.log("download-progress");
+})
+
+autoUpdater.on('error', (error) => {
+  console.log("ERROR");
+})
+
+autoUpdater.on('update-not-availabe', (info) => {
+  console.log("No UPdate");
+  updater.Update(win, store);
+});
+
+autoUpdater.on('update-downloaded', (info) => {
+  console.log("Update downloaded");
+  const dialogOpts = {
+    type: 'info',
+    buttons: ['Restart', 'Later'],
+    title: 'Application Update',
+    //message: process.platform === 'win32' ? releaseNotes : releaseName,
+    detail: 'A new version has been downloaded. Restart the application to apply the updates.'
+  }
+
+  dialog.showMessageBox(dialogOpts, (response) => {
+    if (response === 0) autoUpdater.quitAndInstall()
+  })
+});
+
 // This method will be called when Electron has finished
 // initialization and is ready to create browser windows.
 // Some APIs can only be used after this event occurs.
-app.on('ready', createWindow)
+app.on('ready', function() {
+  createWindow();
+  autoUpdater.checkForUpdatesAndNotify();
+})
 
 // Quit when all windows are closed.
 app.on('window-all-closed', () => {
@@ -74,3 +104,4 @@ app.on('activate', () => {
 
 // In this file you can include the rest of your app's specific main process
 // code. You can also put them in separate files and require them here.
+// when the update has been downloaded and is ready to be installed, notify the BrowserWindow
