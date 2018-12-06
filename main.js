@@ -56,7 +56,7 @@ autoUpdater.on('checking-for-update', () => {
 });
 
 autoUpdater.on('error', (error) => {
-  log.warn("ERROR");
+  log.warn("Update ERROR");
 });
 
 autoUpdater.on('update-not-available', (info) => {
