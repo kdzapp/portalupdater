@@ -78,8 +78,8 @@ function InstallUpdate(build_version) {
 async function Update(win, store) {
   var build_version = await checkForUpdate();
 
-  //TODO: for testing
-  store.set("build", -1);
+  // TODO: for testing
+  // store.set("build", -1);
   // REMOVE
 
   if(build_version != store.get("build", -1)) {

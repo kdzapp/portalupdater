@@ -1,4 +1,4 @@
-const { app, BrowserWindow, ipcMain } = require('electron')
+const { app, dialog, BrowserWindow, ipcMain } = require('electron')
 const Store = require('electron-store');
 const store = new Store();
 const { spawn } = require('child_process');
@@ -16,16 +16,17 @@ autoUpdater.logger = log;
 function createWindow() {
 
   // Create the browser window.
-  win = new BrowserWindow({ 
-    width: 800, 
+  win = new BrowserWindow({
+    width: 800,
     height: 600,
-    icon: path.join(__dirname, 'images/icon.png')})
+    icon: 'images/icon.png'
+  });
 
   // and load the index.html of the app.
   win.loadFile('index.html')
 
   // Open the DevTools.
-  win.webContents.openDevTools()
+  // win.webContents.openDevTools()
 
   // Emitted when the window is closed.
   win.on('closed', () => {
@@ -39,15 +40,29 @@ function createWindow() {
 // Launcher
 function RunPortal(tier, email) {
   console.log(tier, email);
-  const remote = require('electron').remote;
-  var executablePath = "PortalOffice.exe";
-  var parameters = ["--tier", tier, "--email", email];
 
-  const portal = spawn(executablePath, parameters);
-  portal.unref();
+  var child = require('child_process').execFile;
+  var executablePath = "portal\\PortalSpaces.exe";
 
-  let w = remote.getCurrentWindow();
-  w.close();
+  child(executablePath, function(err, data) {
+      if(err){
+         console.error(err);
+         return;
+      }
+
+      console.log(data.toString());
+  });
+
+
+  //const remote = require('electron').remote;
+  //var executablePath = "portal\\PortalSpaces.exe";
+  //var parameters = ["--tier", tier, "--email", email];
+  //
+  //const portal = spawn(executablePath, parameters);
+  //portal.unref();
+
+  //let w = remote.getCurrentWindow();
+  //w.close();
 }
 
 function UpdatePortal() {
@@ -60,6 +75,7 @@ autoUpdater.on('checking-for-update', () => {
 
 autoUpdater.on('error', (error) => {
   log.warn("Update ERROR");
+  log.warn(error);
 });
 
 autoUpdater.on('update-not-available', (info) => {
@@ -87,6 +103,7 @@ autoUpdater.on('update-downloaded', (event, releaseNotes, releaseName) => {
 // Some APIs can only be used after this event occurs.
 app.on('ready', function() {
   createWindow();
+  autoUpdater.setFeedURL({ provider: 'github', owner: 'kdzapp', repo: 'portalupdater', token: 'c6743a4b597a1124408470bfce41189b66b90ff4' });
   autoUpdater.checkForUpdatesAndNotify();
 })
 

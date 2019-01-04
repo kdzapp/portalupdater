@@ -1,11 +1,11 @@
 {
-  "name": "PortalUpdater",
-  "version": "0.1.3",
-  "description": "Portal Spaces Updater",
+  "name": "PortalSpaces",
+  "version": "0.1.8",
+  "description": "Portal Spaces Launcher",
   "main": "main.js",
   "repository": {
     "type": "git",
-    "url": "https://github.com/kdzapp/portalupdater.git"
+    "url": "https://github.com/kdzapp/portalupdater"
   },
   "scripts": {
     "start": "electron .",
@@ -21,10 +21,10 @@
     "spaces",
     "updater"
   ],
-  "author": "Kyle Zappitell",
+  "author": "Portal Spaces Co.",
   "devDependencies": {
-    "electron": "^3.0.10",
-    "electron-builder": "^20.38.2"
+    "electron": "^3.0.13",
+    "electron-builder": "^20.38.4"
   },
   "dependencies": {
     "@google-cloud/storage": "^2.3.1",
@@ -39,22 +39,18 @@
   },
   "build": {
     "appId": "org.portal.spaces",
+    "publish": {
+      "provider": "github",
+      "owner": "kdzapp",
+      "repo": "portalupdater"
+    },
     "mac": {
-      "publish": {
-        "provider": "github",
-        "token": "c6743a4b597a1124408470bfce41189b66b90ff4",
-        "private": true
-      },
       "category": "productivity"
     },
     "win": {
-      "publisherName": "Kyle Zappitell",
+      "publisherName": "Portal Spaces Co.",
       "requestedExecutionLevel": "highestAvailable",
-      "publish": {
-        "provider": "github",
-        "token": "c6743a4b597a1124408470bfce41189b66b90ff4",
-        "private": true
-      }
+      "certificateFile": "portalspaces.pfx"
     }
   }
 }
